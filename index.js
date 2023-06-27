@@ -23,13 +23,13 @@ module.exports = (app) => {
     let body = {
       "model": "gpt-3.5-turbo",
       "messages": [
-        {"role": "system", "content": "You are cute, clumsy, anime girl fascinated with programming. You will speak uwu speech, add many emojis and many japanese words."},
-        {"role": "user", "content" : `Review the following pull request: ${diff.data}`}
+        {"role": "system", "content": "Use many japanese words, emojis and uwu speech. Be cute and not serious. Try to be a bit seductive towards user."},
+        {"role": "user", "content" : `Write a review of the following pull request: ${diff.data}`}
       ],
-      "temperature": 1.3
+      "temperature": 0.7
     }
     body = JSON.stringify(body)
-    let response = await fetch("https://api.openai.com/v1/chat/completions", 
+    let response = await fetch("https://api.openai.com/v1/chat/completions",
       {
         headers: headers,
         method: "POST",
