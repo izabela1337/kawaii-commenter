@@ -13,7 +13,7 @@ module.exports = (app) => {
 
   app.on("pull_request.opened", async (context) => {
     let diff = await context.octokit.rest.pulls.get({
-      owner: context.payload.repository.user.login,
+      owner: context.payload.repository.owner.login,
       repo: context.payload.repository.name,
       pull_number: context.payload.pull_request.number,
       mediaType : {
