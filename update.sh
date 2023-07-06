@@ -1,4 +1,11 @@
-docker build -t kawaii-commenter .
-docker stop kawaii-commenter
-docker rm kawaii-commenter
-docker run -d --name kawaii-commenter -p 3000:3000 -v $(pwd)/.env:/usr/src/app/.env -v /srv/kawaii-commenter/pictures:/pictures kawaii-commenter
+name=kawaii-commenter
+
+docker build -t ${name} .
+result=$(docker ps -q -f name=${name})
+
+if [[ -n "$result" ]]; then
+    docker stop ${name}
+    docker rm ${name}
+fi
+
+docker run -d --name ${name} -p 3000:3000 -v $(pwd)/.env:/usr/src/app/.env -v /srv/${name}/pictures:/pictures ${name}

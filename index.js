@@ -84,7 +84,7 @@ module.exports = (app) => {
     fs.writeFileSync('/pictures/' + context.payload.pull_request.base.sha + '.jpg', imageBuff)
 
     let commentBody = responseReviewJson.choices[0].message.content
-    commentBody = commentBody.concat("\n", `![img](https://kawaii-commenter.nordvik2077.xyz/pictures/${context.payload.pull_request.base.sha}.jpg)`)
+    commentBody = commentBody.concat("\n", `![img](https://${process.env.DOMAIN}/pictures/${context.payload.pull_request.base.sha}.jpg)`)
 
     const prComment = context.issue({
       body: commentBody,
