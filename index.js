@@ -10,7 +10,7 @@ module.exports = (app) => {
 
   app.log.info("Yay, the app was loaded!");
 
-  app.on("pull_request.reopened", async (context) => {
+  app.on("pull_request.opened", async (context) => {
     let diff = await context.octokit.rest.pulls.get({
       owner: context.payload.repository.owner.login,
       repo: context.payload.repository.name,

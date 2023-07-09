@@ -13,7 +13,7 @@ class Openai {
       "model": "gpt-3.5-turbo",
       "messages": [
         {"role": "system", "content": personality},
-        {"role": "user", "content" : `Write a review of the following pull request: ${diff.data}`}
+        {"role": "user", "content" : `Write a review of the following pull request: ${diff.data}. Try to find bugs in code and offer suggestions how it can be improved.`}
       ],
       "temperature": 0.7
     }
