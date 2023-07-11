@@ -27,13 +27,30 @@ module.exports = (app) => {
 
       let commentBody = responseReview.choices[0].message.content
       commentBody = commentBody.concat("\n", `![img](https://${process.env.DOMAIN}/pictures/${context.payload.pull_request.base.sha}.jpg)`)
-
+      commentBody = utils.addFooter(commentBody)
       const prComment = context.issue({
         body: commentBody,
       });
       return context.octokit.issues.createComment(prComment);
     } catch (err) {
       utils.returnErrorComment(context, err)
+    }
+  });
+
+  app.on("issue_comment.created", async (context) => {
+    let commentBody = context.payload.comment.body;
+    let commentAuthor = context.payload.comment.user;
+    if (commentBody.includes("@kawaii-commenter") && commentAuthor != "kawaii-commenter[bot]") {
+      try {
+        let response = await openai.createResponse(context)
+
+        let responseComment = context.issue({
+          body: utils.addFooter(response.choices[0].message.content)
+        })
+        return context.octokit.issues.createComment(responseComment)
+      } catch (err) {
+        console.log(err)
+      }
     }
   });
 

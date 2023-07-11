@@ -12,8 +12,29 @@ class Openai {
     let body = {
       "model": "gpt-3.5-turbo",
       "messages": [
-        {"role": "system", "content": personality},
+        {"role": "system", "content": personality },
         {"role": "user", "content" : `Write a review of the following pull request: ${diff.data}. Try to find bugs in code and offer suggestions how it can be improved.`}
+      ],
+      "temperature": 0.7
+    }
+    return await utils.fetchJson(openapi_url, openaiHeaders, body)
+  }
+  async createResponse(context) {
+    let commentsData = await context.octokit.rest.issues.listComments({
+      owner: context.payload.repository.owner.login,
+      repo: context.payload.repository.name,
+      issue_number: context.payload.issue.number
+    })
+    console.log(commentsData)
+    let messages = []
+    commentsData.data.forEach(message => {
+      messages.push(`"message" : ${message.body}, "user" : ${message.user.login}`)
+    })
+    let body = {
+      "model": "gpt-3.5-turbo",
+      "messages": [
+        {"role": "system", "content": personality },
+        {"role": "user", "content" : `Respond to last message in the following thread: ${messages.toString()}. Use other messages as context to improve your anwser. Try to offer suggestions how it can be improved. Keep in mind that messages coming from "kawaii-commenter[bot] are yours. Reference users by their usernames.`}
       ],
       "temperature": 0.7
     }
@@ -29,7 +50,7 @@ class Openai {
       "temperature": 0.7
     }
     messageHistory.forEach(entry => {
-      body.messages.push({"role": entry.message.role, content: entry.message.content})
+      body.messages.push({"role": entry.message.role, "content": entry.message.content})
     })
     body.messages.push(
         {"role" : "system", "content" : "For the next message, use normal english."},
@@ -43,5 +64,6 @@ const openaiInstance = new Openai();
 
 module.exports = {
   createReview: openaiInstance.createReview,
+  createResponse: openaiInstance.createResponse,
   createImagePrompt: openaiInstance.createImagePrompt
 };

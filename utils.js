@@ -33,6 +33,10 @@ class Utils {
     })
     context.octokit.issues.createComment(body)
   }
+  addFooter(body) {
+    let footer = "<sub>  _This response has been created by bot using chatGPT. If you wish to continue this conversation, reply in this thread by including '@kawaii-commenter' in your comment. For any suggestions and questions, contact bot owner by creating an issue (https://github.com/izabela1337/kawaii-commenter)_ </sub> "
+    return body.concat("\n", "---", "\n", footer)
+  }
 }
 
 const utilsInstance = new Utils();
@@ -41,5 +45,6 @@ module.exports = {
   fetchJson: utilsInstance.fetchJson,
   fetchImage: utilsInstance.fetchImage,
   saveImage: utilsInstance.saveImage,
-  returnErrorComment: utilsInstance.returnErrorComment
+  returnErrorComment: utilsInstance.returnErrorComment,
+  addFooter: utilsInstance.addFooter
 }
