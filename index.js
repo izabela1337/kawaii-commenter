@@ -39,7 +39,7 @@ module.exports = (app) => {
 
   app.on("issue_comment.created", async (context) => {
     let commentBody = context.payload.comment.body;
-    let commentAuthor = context.payload.comment.user;
+    let commentAuthor = context.payload.comment.user.login;
     if (commentBody.includes("@kawaii-commenter") && commentAuthor != "kawaii-commenter[bot]") {
       try {
         let response = await openai.createResponse(context)

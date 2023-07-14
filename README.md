@@ -1,7 +1,9 @@
 # kawaii-commenter
 
-> A GitHub App built with [Probot](https://github.com/probot/probot) that Very important app. You need to use it. Trust me bro.
+> A GitHub App built with [Probot](https://github.com/probot/probot) that Very important app. I'm sorry that I've created it.
 
+## Installation
+https://github.com/apps/kawaii-commenter
 ## Setup
 
 #### Prerequisites
